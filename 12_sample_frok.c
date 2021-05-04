@@ -87,7 +87,7 @@ void	do_another_thing(int *pnum_times)
 	i = x = 0;
 	while (i < 4)
 	{
-		printf("doing onother thing\n");
+		printf("doing another thing\n");
 		j = 0;
 		while (j < 10000)
 		{

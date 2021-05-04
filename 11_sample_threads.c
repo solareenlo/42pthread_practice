@@ -1,5 +1,6 @@
 #include <pthread.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 void	do_one_thing(int *);
 void	do_another_thing(int *);
@@ -11,10 +12,26 @@ int	main(void)
 {
 	pthread_t	thread1, thread2;
 
-	pthread_create(&thread1, NULL, (void *)do_one_thing, (void *)&g_r1);
-	pthread_create(&thread2, NULL, (void *)do_another_thing, (void *)&g_r2);
-	pthread_join(thread1, NULL);
-	pthread_join(thread2, NULL);
+	if (pthread_create(&thread1, NULL, (void *)do_one_thing, (void *)&g_r1) != 0)
+	{
+		perror("pthrad_create");
+		exit(1);
+	}
+	if (pthread_create(&thread2, NULL, (void *)do_another_thing, (void *)&g_r2) != 0)
+	{
+		perror("pthrad_create");
+		exit(1);
+	}
+	if (pthread_join(thread1, NULL) != 0)
+	{
+		perror("pthrad_join");
+		exit(1);
+	}
+	if (pthread_join(thread2, NULL) != 0)
+	{
+		perror("pthrad_join");
+		exit(1);
+	}
 	do_wrap_up(g_r1, g_r2);
 	return(0);
 }
@@ -45,7 +62,7 @@ void	do_another_thing(int *pnum_times)
 	i = x = 0;
 	while (i < 4)
 	{
-		printf("doing onother thing\n");
+		printf("doing another thing\n");
 		j = 0;
 		while (j < 10000)
 		{
